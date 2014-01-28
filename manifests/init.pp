@@ -1,0 +1,1 @@
+class resque_pool {}

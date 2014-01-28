@@ -1,0 +1,96 @@
+#!/bin/bash
+# puppet-resque_pool     This init script enables something in resque-pool, with
+#                        rackup, for <%= @name %>
+#
+# Authors:               Paul Springett
+#
+
+### BEGIN INIT INFO
+# Provides:          resque_pool_<%= @name %>
+# Required-Start:
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: <%= @name %> running resque-pool
+### END INIT INFO
+
+. /etc/default/resque_pool_<%= @name %>
+
+RETVAL=0
+
+. /lib/lsb/init-functions
+
+start() {
+    log_daemon_msg "Starting resque-pool server" "resque_pool_<%= @name %>"
+    start-stop-daemon --start --quiet --oknodo --user "${USER:-root}" --pidfile $PIDFILE --chdir $APPROOT --startas $DAEMON -- $DAEMON_OPTS
+    RETVAL=$?
+    log_end_msg $RETVAL
+}
+
+stop() {
+    log_daemon_msg "Stopping resque-pool server" "resque_pool_<%= @name %>"
+    start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE
+    RETVAL=$?
+    log_end_msg $RETVAL
+}
+
+restart() {
+    stop
+    sleep 1
+    start
+}
+
+# Issue a hot reload of the resque-pool master process.
+#
+# Status checking is done by grabbing the old PID, trying the reload, waiting,
+# and making sure the old master process is dead. If it's alive, the reload
+# failed; if it's dead, the reload succeeded.
+#
+reload() {
+    log_daemon_msg "Reloading resque-pool master and worker processes" <%= @name %>
+
+    oldpid=$(cat $PIDFILE)
+    start-stop-daemon --stop --quiet --signal HUP --pidfile $PIDFILE
+
+    RETVAL=1
+
+    # Recheck the old resque-pool master process times to see if it's exited, and
+    # return as soon as it has exited.
+    for second in {1..15}; do
+        sleep 1
+        kill -0 $oldpid 2>/dev/null 1>/dev/null
+        if [ $? -eq '1' ]; then
+            RETVAL=0
+            break
+        fi
+    done
+
+    log_end_msg $RETVAL
+}
+
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    reload)
+        reload
+        ;;
+    status)
+        status_of_proc -p "$PIDFILE" 'resque_pool_<%= @name %>' '<%= @name %>'
+        RETVAL=$?
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit $RETVAL
+
