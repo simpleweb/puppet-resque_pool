@@ -1,8 +1,8 @@
-# define: resque_pool::instance
+# Define: resque_pool::instance
 #
-#   Create a resque-pool service
+# Create a resque-pool service
 #
-# Parameters
+# Parameters:
 #
 # [*config_file*] - path to the resque-pool.yml config file
 # [*pidfile*] - path to the pidfile
@@ -13,7 +13,6 @@
 # [*rack_env*] - rack environment (production)
 # [*stdout_path*] - path to the stdout log ($app_root/log/resque_pool_${name}.stdout.log)
 # [*stderr_path*] - path to the stderr log ($app_root/log/resque_pool_${name}.stderr.log)
-#
 #
 # Usage example:
 #
