@@ -38,6 +38,7 @@ define resque_pool::instance (
   $user,
   $group,
   $app_root,
+  $bundle_path = 'bundle',
   $bin_path = 'resque-pool',
   $rack_env = 'production',
   $stdout_path   = undef,
@@ -58,8 +59,8 @@ define resque_pool::instance (
 
   $options = "--daemon --appname ${name} --environment ${rack_env} --config ${config_file} --pidfile ${pidfile} --stdout ${_stdout_path} --stderr ${_stderr_path}"
 
-  $daemon      = $bin_path
-  $daemon_opts = "exec unicorn ${options}"
+  $daemon      = $bundler_executable
+  $daemon_opts = "exec ${$bin_path} ${options}"
 
   service { "resque_pool_${name}":
     ensure     => running,

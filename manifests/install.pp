@@ -1,12 +1,12 @@
 class resque_pool::install {
 
-  package { 'resque'
+  package { 'resque':
     ensure => installed,
     provider => 'gem',
     require => Class['redis'],
   }
 
-  package { 'resque-pool'
+  package { 'resque-pool':
     ensure => installed,
     provider => 'gem',
   }
