@@ -10,6 +10,7 @@
 # [*group*] - group to run the process as
 # [*app_root*] - path to the rack application, should contain a config.ru file
 # [*bin_path*] - path to the resque-pool binary (resque-pool)
+# [*bundler_executable*] - path to the bundler binary (bundle)
 # [*rack_env*] - rack environment (production)
 # [*stdout_path*] - path to the stdout log ($app_root/log/resque_pool_${name}.stdout.log)
 # [*stderr_path*] - path to the stderr log ($app_root/log/resque_pool_${name}.stderr.log)
@@ -24,7 +25,6 @@
 #     pidfile => "$rack_root/tmp/pids/resque-pool.yml",
 #     user => "acme",
 #     group => "acme",
-#     bin_path => "/usr/local/bin/resque-pool",
 #   }
 #
 # Commands available from example above:
@@ -38,7 +38,7 @@ define resque_pool::instance (
   $user,
   $group,
   $app_root,
-  $bundle_path = 'bundle',
+  $bundler_executable = 'bundle',
   $bin_path = 'resque-pool',
   $rack_env = 'production',
   $stdout_path   = undef,
