@@ -30,15 +30,26 @@ case "$1" in
   reload)
     log_daemon_msg "Reloading config files, logfiles and restarting all resque-pool workers" "resque_pool_<%= @name %>"
     start-stop-daemon --stop --pidfile $PIDFILE --signal HUP
+    RETVAL=$?
+    log_end_msg $RETVAL
     ;;
   graceful-stop)
+    log_daemon_msg "Stopping resque-pool server" "resque_pool_<%= @name %>"
     start-stop-daemon --stop --pidfile $PIDFILE --signal QUIT
+    RETVAL=$?
+    log_end_msg $RETVAL
     ;;
   quick-stop)
+    log_daemon_msg "Stopping resque-pool server" "resque_pool_<%= @name %>"
     start-stop-daemon --stop --pidfile $PIDFILE --signal INT
+    RETVAL=$?
+    log_end_msg $RETVAL
     ;;
   stop)
+    log_daemon_msg "Stopping resque-pool server" "resque_pool_<%= @name %>"
     start-stop-daemon --stop --pidfile $PIDFILE --retry=QUIT/30/INT/10/KILL/5
+    RETVAL=$?
+    log_end_msg $RETVAL
     ;;
   restart)
     $0 stop
