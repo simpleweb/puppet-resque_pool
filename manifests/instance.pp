@@ -68,7 +68,7 @@ define resque_pool::instance (
     hasstatus  => true,
     start      => "/etc/init.d/resque_pool_${name} start",
     stop       => "/etc/init.d/resque_pool_${name} stop",
-    restart    => "/etc/init.d/resque_pool_${name} reload",
+    restart    => "/etc/init.d/resque_pool_${name} restart",
     require    => [
       File["/etc/init.d/resque_pool_${name}"],
       File["/etc/default/resque_pool_${name}"],
