@@ -22,7 +22,7 @@
 #   resque_pool::instance { "acme":
 #     app_root => $rack_root,
 #     config_file => "$rack_root/config/resque-pool.yml",
-#     pidfile => "$rack_root/tmp/pids/resque-pool.yml",
+#     pidfile => "$rack_root/tmp/pids/resque-pool.pid",
 #     user => "acme",
 #     group => "acme",
 #   }
