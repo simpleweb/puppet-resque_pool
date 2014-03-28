@@ -23,7 +23,7 @@ RETVAL=0
 case "$1" in
   start)
     log_daemon_msg "Starting resque-pool server" "resque_pool_<%= @name %>"
-    start-stop-daemon --start --quiet --oknodo --user "${USER:-root}" --pidfile $PIDFILE --chdir $APPROOT --startas $DAEMON -- $DAEMON_OPTS
+    start-stop-daemon --start --quiet --oknodo --user "${USER:-root}" --group "${GROUP:-root}" --pidfile $PIDFILE --chdir $APPROOT --startas $DAEMON -- $DAEMON_OPTS
     RETVAL=$?
     log_end_msg $RETVAL
     ;;
