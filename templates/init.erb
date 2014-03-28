@@ -28,6 +28,7 @@ case "$1" in
     log_end_msg $RETVAL
     ;;
   reload)
+    log_daemon_msg "Reloading config files, logfiles and restarting all resque-pool workers" "resque_pool_<%= @name %>"
     start-stop-daemon --stop --pidfile $PIDFILE --signal HUP
     ;;
   graceful-stop)
